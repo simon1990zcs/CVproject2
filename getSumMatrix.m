@@ -1,5 +1,5 @@
 %calculate Ex2, Ey2, ExEy sum matrix based on imgs.
-function [Ex2Sum, Ey2Sum, ExEySum] = getSumMatrix(imgs)
+function [Ex2Sum, Ey2Sum, ExEySum, Eo] = getSumMatrix(imgs)
     row = size(imgs, 1);
     col = size(imgs, 2);
     max = size(imgs, 3);
@@ -7,6 +7,7 @@ function [Ex2Sum, Ey2Sum, ExEySum] = getSumMatrix(imgs)
     %intialize matrix
     Ex = zeros(row, col, max);
     Ey = zeros(row, col, max);
+    Eo = zeros(row, col, max);
     Ex2 = zeros(row, col, max);
     Ey2 = zeros(row, col, max);
     ExEy = zeros(row, col, max);
@@ -21,8 +22,10 @@ function [Ex2Sum, Ey2Sum, ExEySum] = getSumMatrix(imgs)
     %apply prewitt mask to imgs
     for i = 1 : max
         Ex(:,:,i) = imfilter(imgs(:,:,i), px, 'replicate');
-        Ey(:,:,i) = imfilter(imgs(:,:,i), py, 'replicate');
+        Ey(:,:,i) = imfilter(imgs(:,:,i), py, 'replicate'); 
+        [~, Eo(:, : , i)] = imgradient(Ex(:,:,i), Ey(:,:,i));
     end
+    
     
     %get Ex2, Ey2, and ExEy
     for i = 1 : max

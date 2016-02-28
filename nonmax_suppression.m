@@ -1,8 +1,8 @@
 function suppressed_R = nonmax_suppression(filtered_R, Eo)
 
-D = [0, pi/4, pi/2, 3*pi/4];
-theta_Eo = atan(Eo);
-theta_Eo(theta_Eo < 0) = theta_Eo(theta_Eo < 0) + pi;
+D = [0, 45, 90, 135];
+theta_Eo = Eo;
+theta_Eo(theta_Eo < 0) = theta_Eo(theta_Eo < 0) + 180;
 
 [row, col, max] = size(filtered_R);
 
@@ -33,7 +33,7 @@ end
 
 function filtered_R = suppress(filtered_R, min_theta, i, j, k)
 
-D = [0, pi/4, pi/2, 3*pi/4];
+D = [0, 45, 90, 135];
 deltaX = [1, 1, 0, -1];
 deltaY = [0, 1, 1, 1];
 delta = [-2, -1, 1, 2];

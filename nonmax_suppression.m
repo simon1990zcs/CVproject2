@@ -6,6 +6,7 @@ theta_Eo(theta_Eo < -22.5) = theta_Eo(theta_Eo < -22.5) + 180;
 theta_Eo(theta_Eo > 157.5) = theta_Eo(theta_Eo > 157.5) - 180;
 
 [row, col, max] = size(filtered_R);
+suppressed_R = zeros(row, col, max);
 
 
 for i = 3 : row - 2
@@ -24,16 +25,16 @@ for i = 3 : row - 2
                 end
             end
             % nonmax_suppression
-            filtered_R = suppress(filtered_R, min_theta, i, j, k);
+            suppressed_R(i, j, k) = suppress(filtered_R, min_theta, i, j, k);
         end 
     end
 end
 
-suppressed_R = filtered_R;
-
 end
 
-function filtered_R = suppress(filtered_R, min_theta, row, col, k)
+function result = suppress(filtered_R, min_theta, row, col, k)
+
+result = filtered_R(row, col, k);
 
 D = [0, 45, 90, 135];
 deltaCol = [1, 1, 0, -1];
@@ -53,7 +54,7 @@ end
 
 for m = 1 : 4
     if filtered_R(row, col, k) < filtered_R(neigh(m, 1), neigh(m, 2), k);
-        filtered_R(row, col, k) = 0;
+        result = 0;
         break;
     end
 end

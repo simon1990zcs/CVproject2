@@ -14,8 +14,8 @@ mask = cornerMask + edgeMask;
 
 %Thresholded mask
 filtered_R = R .* double(cornerMask);
-filtered_R = nonmax_suppression(filtered_R, Eo);
-cornerMask2 = uint8(filtered_R > threshold);
+suppressed_R = nonmax_suppression(filtered_R, Eo);
+cornerMask2 = uint8(suppressed_R > threshold);
 
 %Corner feature matching
 
@@ -24,14 +24,15 @@ cornerMask2 = uint8(filtered_R > threshold);
 row = size(imgs, 1);
 col = size(imgs, 2);
 
-result = zeros(row, col);
+sample1 = zeros(row, col);
+sample2 = zeros(row, col);
 for i = 1 : row
     for j = 1 : col
-        result(i, j) = imgs(i, j, 1) * (1 + cornerMask2(i, j, 1));
+        sample1(i, j) = imgs(i, j, 1) * (1 + cornerMask2(i, j, 1));
+        sample2(i, j) = imgs(i, j, 1) * (1 + cornerMask(i, j, 1));
     end
 end
 
-imtool(cornerMask(:,:,1), [0, 1]);
-imtool(cornerMask2(:,:,1), [0, 1]);
-imtool(result, [0,255]);
+imtool(sample1, [0,255]);
+imtool(sample2, [0,255]);
 

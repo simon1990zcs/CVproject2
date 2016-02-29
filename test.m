@@ -1,7 +1,7 @@
 clear;
-corner = 40 * ones(5, 5);
-test_corner = zeros(10, 10);
-test_corner(6 : 10, 6 : 10) = corner;
+corner = 40 * ones(10, 10);
+test_corner = zeros(20, 20);
+test_corner(11 : 20, 11 : 20) = corner;
 
 %get R matrix
 [Ex2Sum, Ey2Sum, ExEySum, Eo] = getSumMatrix(test_corner);
@@ -15,5 +15,5 @@ cornerMask = uint8(R > threshold);
 
 %Thresholded mask
 filtered_R = R .* double(cornerMask);
-filtered_R = nonmax_suppression(filtered_R, Eo);
-cornerMask2 = uint8(filtered_R > threshold);
+suppressed_R = nonmax_suppression(filtered_R, Eo);
+cornerMask2 = uint8(suppressed_R > threshold);

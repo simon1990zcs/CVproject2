@@ -1,8 +1,9 @@
 %calculate Ex2, Ey2, ExEy sum matrix based on imgs.
 function [Ex2Sum, Ey2Sum, ExEySum, Eo] = getSumMatrix(imgs)
-    row = size(imgs, 1);
-    col = size(imgs, 2);
-    max = size(imgs, 3);
+    [row, col, max] = size(imgs);
+%     row = size(imgs, 1);
+%     col = size(imgs, 2);
+%     max = size(imgs, 3);
     
     %intialize matrix
     Ex = zeros(row, col, max);

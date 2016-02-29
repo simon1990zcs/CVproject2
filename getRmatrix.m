@@ -5,6 +5,9 @@ col = size(Ex2Sum, 2);
 hgt = size(Ex2Sum, 3);
 R = zeros(row, col, hgt);
 
+
+
+
 for h = 1 : 1
     for x = 5 : row - 3
         for y = 5 : col - 3
@@ -12,6 +15,8 @@ for h = 1 : 1
         end
     end
 end
+
+
 end
 
 

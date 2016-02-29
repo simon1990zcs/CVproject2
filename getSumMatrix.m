@@ -24,7 +24,7 @@ function [Ex2Sum, Ey2Sum, ExEySum, Eo] = getSumMatrix(imgs)
         Ex(:,:,i) = imfilter(imgs(:,:,i), px, 'replicate');
         Ey(:,:,i) = imfilter(imgs(:,:,i), py, 'replicate'); 
         [~, Eo(:, : , i)] = imgradient(Ex(:,:,i), Ey(:,:,i));
-        Eo(:, : , i) = Eo(:, : , i) * (-1);
+        Eo(:, : , i) = Eo(:, : , i) * -1;
     end
     
     

@@ -36,16 +36,16 @@ end
 function filtered_R = suppress(filtered_R, min_theta, row, col, k)
 
 D = [0, 45, 90, 135];
-deltaX = [1, 1, 0, -1];
-deltaY = [0, 1, 1, 1];
-delta = [-2, -1, 1, 2]; 
-neigh = zeros(4, 2); 
+deltaCol = [1, 1, 0, -1];
+deltaRow = [0, 1, 1, 1];
+times = [-2, -1, 1, 2];
+neigh = zeros(4, 2);
 
 for m = 1 : 4
     if min_theta == D(m)
-        for n = 1 : 4          
-            neigh(n, 2) = col + deltaX(m) * delta(n);
-            neigh(n, 1) = row + deltaY(m) * delta(n);
+        for n = 1 : 4
+            neigh(n, 1) = row + deltaRow(m) * times(n);
+            neigh(n, 2) = col + deltaCol(m) * times(n);
         end
         break;
     end

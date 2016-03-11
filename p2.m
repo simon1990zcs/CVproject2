@@ -20,6 +20,9 @@ cornerMask2 = uint8(suppressed_R > threshold);
 %Corner feature matching
 
 
+%RANSAC to filter out outliers
+
+
 %display 
 row = size(imgs, 1);
 col = size(imgs, 2);

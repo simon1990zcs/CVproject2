@@ -3,7 +3,7 @@ function R = getRmatrix(Ex2Sum, Ey2Sum, ExEySum)
 [row, col, hgt] = size(Ex2Sum);
 R = zeros(row, col, hgt);
 
-for h = 1 : 1
+for h = 1 : hgt
     for x = 5 : row - 3
         for y = 5 : col - 3
             R(x,y,h) = getRvalue(Ex2Sum, Ey2Sum, ExEySum, x, y, h);

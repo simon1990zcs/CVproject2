@@ -10,8 +10,8 @@ function [corner1, corner2] = findPairsOfCorners(image1, image2, R1, R2, win_siz
 
 
 
-corner1 = zeros(2,size(r1, 1))';
-corner2 = zeros(2,size(r1, 1))';
+corner1 = zeros(size(r1, 1), 2);
+corner2 = zeros(size(r1, 1), 2);
 
 
 for i = 1 : size(r1, 1)

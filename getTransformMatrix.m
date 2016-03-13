@@ -9,7 +9,7 @@ BestTFM = zeros(3, 3);
 for i = 1 : 30
     %pick random 4 points
     len = size(corner1, 1);
-    fourPs = round(rand(1, 4) * len);
+    fourPs = round(rand(1, 4) * (len - 1)) + 1;
     [transform, match] = RANSAC(corner1, corner2, fourPs, threshold);
     if match > BestMatch
         BestMatch = match;

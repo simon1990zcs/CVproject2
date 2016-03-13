@@ -7,6 +7,14 @@ function imgs = getImgs(imageSet)
         folderPath = './HallWay1/DSC_%04d.jpg';
         initial = 281;
         max = 3;
+    elseif imageSet == 2  
+        folderPath = './HallWay2/DSC_%04d.jpg';
+        initial = 285;
+        max = 3;
+    elseif imageSet == 3
+        folderPath = './Office/DSC_%04d.jpg';
+        initial = 309;
+        max = 5;
     end
     
     imgs = zeros(row, col, max);

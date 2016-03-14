@@ -9,9 +9,9 @@ function [Ex2Sum, Ey2Sum, ExEySum, Eo] = getSumMatrix(imgs)
     Ex = zeros(row, col, max);
     Ey = zeros(row, col, max);
     Eo = zeros(row, col, max);
-%     Ex2 = zeros(row, col, max);
-%     Ey2 = zeros(row, col, max);
-%     ExEy = zeros(row, col, max);
+    Ex2 = zeros(row, col, max);
+    Ey2 = zeros(row, col, max);
+    ExEy = zeros(row, col, max);
     Ex2Sum = zeros(row, col, max);
     Ey2Sum = zeros(row, col, max);
     ExEySum = zeros(row, col, max);
@@ -29,29 +29,29 @@ function [Ex2Sum, Ey2Sum, ExEySum, Eo] = getSumMatrix(imgs)
     end
     
     
- %get Ex2, Ey2, and ExEy
+    %get Ex2, Ey2, and ExEy
     
-    Ex2 = Ex .* Ex;
-    Ey2 = Ey .* Ey;
-    ExEy = Ex .* Ey;
+        Ex2 = Ex .* Ex;
+        Ey2 = Ey .* Ey;
+        ExEy = Ex .* Ey(:,:,i);
     
     
-    %preprocess sum matrix
+%preprocess sum matrix
 
-    Ex2Sum(1, 1, :) = Ex2(1,1,:);
-    Ey2Sum(1, 1, :) = Ey2(1,1,:);
-    ExEySum(1, 1, :) = ExEy(1,1,:);
+Ex2Sum(1, 1, :) = Ex2(1,1,:);
+Ey2Sum(1, 1, :) = Ey2(1,1,:);
+ExEySum(1, 1, :) = ExEy(1,1,:);
 
-    for j = 2 : row
-        Ex2Sum(j, 1, :) = Ex2Sum(j - 1, 1, :) + Ex2(j, 1, :);
-        Ey2Sum(j, 1, :) = Ey2Sum(j - 1, 1, :) + Ey2(j, 1, :);
-        ExEySum(j, 1, :) = ExEySum(j - 1, 1, :) + ExEy(j, 1, :);
-    end
-    for j = 2 : col
-        Ex2Sum(1, j, :) = Ex2Sum(1, j - 1, :) + Ex2(1, j, :);
-        Ey2Sum(1, j, :) = Ey2Sum(1, j - 1, :) + Ey2(1, j, :);
-        ExEySum(1, j, :) = ExEySum(1, j - 1, :) + ExEy(1, j, :);
-    end
+for j = 2 : row
+    Ex2Sum(j, 1, :) = Ex2Sum(j - 1, 1, :) + Ex2(j, 1, :);
+    Ey2Sum(j, 1, :) = Ey2Sum(j - 1, 1, :) + Ey2(j, 1, :);
+    ExEySum(j, 1, :) = ExEySum(j - 1, 1, :) + ExEy(j, 1, :);
+end
+for j = 2 : col
+    Ex2Sum(1, j, :) = Ex2Sum(1, j - 1, :) + Ex2(1, j, :);
+    Ey2Sum(1, j, :) = Ey2Sum(1, j - 1, :) + Ey2(1, j, :);
+    ExEySum(1, j, :) = ExEySum(1, j - 1, :) + ExEy(1, j, :);
+end
     
     
     %claculate sum matrix

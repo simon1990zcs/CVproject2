@@ -1,6 +1,6 @@
 clear;
 %read the images 
-imageSet = 3;
+imageSet = 1;
 imgs = getImgs(imageSet);
 
 %get R matrix

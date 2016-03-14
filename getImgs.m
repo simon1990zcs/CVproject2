@@ -1,5 +1,5 @@
 %return a imgs matrix, based on image set NO.
-function imgs = getImgs(imageSet)
+function [imgs, imgs_corlor] = getImgs(imageSet)
     row = 340;
     col = 512;
     
@@ -14,10 +14,11 @@ function imgs = getImgs(imageSet)
     elseif imageSet == 3
         folderPath = './Office/DSC_%04d.jpg';
         initial = 309;
-        max = 5;
+        max = 3;
     end
     
     imgs = zeros(row, col, max);
+    imgs_corlor = zeros(row, col, 3, max);
     
     for i = 1 : max
         %generate jpg files name according to sequence
@@ -26,6 +27,7 @@ function imgs = getImgs(imageSet)
         %read the image and make them grayscale
         if exist(jpgFileName, 'file')
         	imageData = imread(jpgFileName, 'jpg');
+            imgs_corlor(:,:,:,i) = imageData;
             imgs(:,:,i) = rgb2gray(imageData);
         else
         	fprintf('File %s does not exist.\n', jpgFileName);

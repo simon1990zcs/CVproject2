@@ -1,6 +1,6 @@
 function [TFM2, height, width] = getFinalMeshAndNewTFM(TFM, imgs)
 %based on all transform matrix, get calculate overall boundary for all
-%images, return new transform matrix and mesh grid
+%images, return new transform matrix and height and width of mesh grid
 
 [row, col, hgt] = size(imgs);
 
@@ -25,13 +25,12 @@ boundary = ceil(boundary);
 height = boundary(2) - boundary(1);
 width = boundary(4) - boundary(3);
 
-
 %get new tranform matrix
 baseMatrix = eye(3,3);
 baseMatrix(1:2,3) = [boundary(1); boundary(3)];
 TFM2 = zeros(3, 3, hgt);
 for i = 1 : hgt
-    TFM2(:,:,i) = baseMatrix * TFM(:,:,i);
+    TFM2(:,:,i) = TFM(:,:,i) * baseMatrix;
 end
 
 end

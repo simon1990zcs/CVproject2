@@ -1,17 +1,11 @@
 %calculate Ex2, Ey2, ExEy sum matrix based on imgs.
 function [Ex2Sum, Ey2Sum, ExEySum, Eo] = getSumMatrix(imgs)
     [row, col, max] = size(imgs);
-%     row = size(imgs, 1);
-%     col = size(imgs, 2);
-%     max = size(imgs, 3);
     
     %intialize matrix
     Ex = zeros(row, col, max);
     Ey = zeros(row, col, max);
     Eo = zeros(row, col, max);
-%     Ex2 = zeros(row, col, max);
-%     Ey2 = zeros(row, col, max);
-%     ExEy = zeros(row, col, max);
     Ex2Sum = zeros(row, col, max);
     Ey2Sum = zeros(row, col, max);
     ExEySum = zeros(row, col, max);
@@ -28,16 +22,12 @@ function [Ex2Sum, Ey2Sum, ExEySum, Eo] = getSumMatrix(imgs)
         Eo(:, : , i) = Eo(:, : , i) * -1;
     end
     
-    
- %get Ex2, Ey2, and ExEy
-    
+    %get Ex2, Ey2, and ExEy
     Ex2 = Ex .* Ex;
     Ey2 = Ey .* Ey;
     ExEy = Ex .* Ey;
     
-    
     %preprocess sum matrix
-
     Ex2Sum(1, 1, :) = Ex2(1,1,:);
     Ey2Sum(1, 1, :) = Ey2(1,1,:);
     ExEySum(1, 1, :) = ExEy(1,1,:);
@@ -55,7 +45,6 @@ function [Ex2Sum, Ey2Sum, ExEySum, Eo] = getSumMatrix(imgs)
     
     
     %claculate sum matrix
-    
     for i = 2 : row
         for j = 2 : col
             Ex2Sum(i, j, :) = Ex2Sum(i - 1, j, :) + Ex2Sum(i, j - 1, :) - Ex2Sum(i - 1, j - 1, :) + Ex2(i, j, :);

@@ -1,7 +1,7 @@
 
 clear;
 %read the images 
-imageSet = 3;
+imageSet = 1;
 [imgs, imgs_corlor] = getImgs(imageSet);
 
 %get R matrix
@@ -28,7 +28,7 @@ for i = 1 : size(imgs, 3) - 1
     %find corner correspondence according NCC algorithms
     [corner1, corner2] = findPairsOfCorners(imgs(:,:,i), imgs(:,:,i + 1), cornerMask2(:,:,i), cornerMask2(:,:,i + 1), 7);
     
-        % display1: display the point matching between two images.
+    % display0: display the point matching between two images.
     points1 = cornerPoints(fliplr(corner1));
     points2 = cornerPoints(fliplr(corner2));
     figure;
@@ -38,7 +38,7 @@ for i = 1 : size(imgs, 3) - 1
     %RANSAC to filter out outliers, and find out best transform matrix
     threshold_Mathing = 100;
     for k = 1 : 4
-        BestTFM = getTransformMatrix(corner1, corner2, threshold_Mathing);
+        BestTFM = getTFMbyRANSAC(corner1, corner2, threshold_Mathing);
         [corner1, corner2] = filterOutlier(corner1, corner2, BestTFM, threshold_Mathing);
         threshold_Mathing = threshold_Mathing / 2;
     end
@@ -58,8 +58,6 @@ end
 %calculate the canvas size
 [TFM2, height, width] = getFinalMeshAndNewTFM(TFM, imgs);
 
-
-
 %warp images one by one to the canvas
 [xi, yi] = meshgrid(1 : width, 1 : height);
 img_warped = zeros(height, width, 3);
@@ -75,14 +73,13 @@ for i = 1 : size(imgs, 3)
     
     %blend images together
     %blend1: using max
-%     img_warped = max(img_warped, imgi_warped);
+    img_warped = max(img_warped, imgi_warped);
     %blend2: using averaging
-    temp = img_warped > 0 & imgi_warped > 0;
-    img_warped(temp) = (img_warped(temp) + imgi_warped(temp)) / 2;
-    temp = img_warped == 0 & imgi_warped > 0;
-    img_warped(temp) = imgi_warped(temp);
+%     temp = img_warped > 0 & imgi_warped > 0;
+%     img_warped(temp) = (img_warped(temp) + imgi_warped(temp)) / 2;
+%     temp = img_warped == 0 & imgi_warped > 0;
+%     img_warped(temp) = imgi_warped(temp);
 end
 
 %display 3: fully warped image
 imtool(uint8(img_warped));
-% res = imfuse(img1_warped, img2_warped, 'blend','Scaling', 'joint');

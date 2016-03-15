@@ -1,4 +1,4 @@
-function BestTFM = getTransformMatrix(corner1, corner2, threshold)
+function BestTFM = getTFMbyRANSAC(corner1, corner2, threshold)
 %based one two corner correspondence set, and a threshold to check if two points are match, 
 % to find out a best Transform Matrix
 

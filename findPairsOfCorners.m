@@ -1,7 +1,5 @@
 function [corner1, corner2] = findPairsOfCorners(image1, image2, R1, R2, win_size)
-% R1 and R2 are the corners after non_maximum suppression
-% 
-
+% R1 and R2 are the corners after non_maximum suppression 
 
 % num of corners in images(R1, R2)
 % find non-zero elements of R1 and R2, which are the indices of the corners

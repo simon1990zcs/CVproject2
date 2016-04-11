@@ -18,7 +18,9 @@ sigma = 0.2;					%gaussian kernel bandwidth
 lambda = 1e-2;					%regularization
 interp_factor = 0.075;			%linear interpolation factor for adaptation
 
-
+threshold = 6;
+PSR = 10;
+sidelobe = 9;
 
 %notation: variables ending with f are in the frequency domain.
 
@@ -44,6 +46,8 @@ cos_window = hann(sz(1)) * hann(sz(2))';
 
 time = 0;  %to calculate FPS
 positions = zeros(numel(img_files), 2);  %to calculate precision
+hankelPos = zeros(numel(img_files), 2);
+hankelPos(1,:) = pos;
 
 for frame = 1:numel(img_files),
 	%load image
@@ -59,23 +63,40 @@ for frame = 1:numel(img_files),
 	
 	%extract and pre-process subwindow
 	x = get_subwindow(im, pos, sz, cos_window);
+    
 	
-	if frame > 1,
+	if frame > 1
 		%calculate response of the classifier at all locations
 		k = dense_gauss_kernel(sigma, x, z);
 		response = real(ifft2(alphaf .* fft2(k)));   %(Eq. 9)
-		
-		%target location is at the maximum response
-		[row, col] = find(response == max(response(:)), 1);
-		pos = pos - floor(sz/2) + [row, col];
-	end
+        %calculate the PSR for this response
+		PSR = getPSR(response, sidelobe)
+        
+        %if PST < threshold, calculate hankel matrix, new predicted pos
+        if PSR < threshold
+            pos = hankelMatrix(hankelPos, frame - 1);
+        else
+            %target location is at the maximum response
+            [row, col] = find(response == max(response(:)), 1);
+            pos = pos - floor(sz/2) + [row, col];
+        end
+        
+        hankelPos(frame, :) = pos;
+        
+    end
 	
-	%get subwindow at current estimated target position, to train classifer
-	x = get_subwindow(im, pos, sz, cos_window);
-	
-	%Kernel Regularized Least-Squares, calculate alphas (in Fourier domain)
-	k = dense_gauss_kernel(sigma, x);
-	new_alphaf = yf ./ (fft2(k) + lambda);   %(Eq. 7)
+    %if PSR < threshold: hankel matrix, calcuate the predicted pos,
+    if PSR < threshold
+        new_alphaf = alphaf;
+    else
+        %get subwindow at current estimated target position, to train classifer
+        x = get_subwindow(im, pos, sz, cos_window);
+        
+        %Kernel Regularized Least-Squares, calculate alphas (in Fourier domain)
+        k = dense_gauss_kernel(sigma, x);
+        new_alphaf = yf ./ (fft2(k) + lambda);   %(Eq. 7)
+    end
+    
 	new_z = x;
 	
 	if frame == 1,  %first frame, train with a single image

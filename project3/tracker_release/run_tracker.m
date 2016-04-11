@@ -8,7 +8,7 @@
 
 
 %choose the path to the videos (you'll be able to choose one with the GUI)
-base_path = './tiger1/';
+base_path = './girl/';
 
 
 %parameters according to the paper
@@ -18,7 +18,7 @@ sigma = 0.2;					%gaussian kernel bandwidth
 lambda = 1e-2;					%regularization
 interp_factor = 0.075;			%linear interpolation factor for adaptation
 
-threshold = 6;
+threshold = 0;
 PSR = 10;
 sidelobe = 9;
 
@@ -150,7 +150,7 @@ show_precision(positions, ground_truth, video_path)
 M = uint32(positions);  % generate integer matrix M
 target_M = repmat(target_sz,numel(img_files), 1);
 M = [M target_M];
-fid = fopen('tiger.txt','w');
+fid = fopen('girl_CM.txt','w');
 fprintf(fid,'%g %g %g %g \n', M');
 fclose(fid);
 

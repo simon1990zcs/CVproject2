@@ -8,8 +8,10 @@
 
 
 %choose the path to the videos (you'll be able to choose one with the GUI)
-base_path = './girl/';
 
+base_path = '../tiger1/';
+filePath = '../tiger1/tiger1_MIL_TR001.txt'; % used to read the MIL data
+[positions_MIL, target_sz_MIL] = readingText(filePath);
 
 %parameters according to the paper
 padding = 1;					%extra area surrounding the target
@@ -18,9 +20,9 @@ sigma = 0.2;					%gaussian kernel bandwidth
 lambda = 1e-2;					%regularization
 interp_factor = 0.075;			%linear interpolation factor for adaptation
 
-threshold = 10.5;
+threshold = 0;
 PSR = 10;
-sidelobe = 13;
+sidelobe = 9;
 
 %notation: variables ending with f are in the frequency domain.
 
@@ -147,9 +149,11 @@ disp(['Frames-per-second: ' num2str(numel(img_files) / time)])
 show_precision(positions, ground_truth, video_path)
 
 %save the positions data to local
-M = (uint32(positions); repmat(target_sz % generate integer matrix M
-fid = fopen('girl.txt','w');
-fprintf(fid,[repmat('%g ',1,size(M,2)),'\n'], M);
+M = uint32(positions);  % generate integer matrix M
+target_M = repmat(target_sz,numel(img_files), 1);
+M = [M target_M];
+fid = fopen('girl_CM.txt','w');
+fprintf(fid,'%g %g %g %g \n', M');
 fclose(fid);
 
 

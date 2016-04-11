@@ -8,8 +8,10 @@
 
 
 %choose the path to the videos (you'll be able to choose one with the GUI)
-base_path = './girl/';
 
+base_path = '../tiger1/';
+filePath = '../tiger1/tiger1_MIL_TR001.txt'; % used to read the MIL data
+[positions_MIL, target_sz_MIL] = readingText(filePath);
 
 %parameters according to the paper
 padding = 1;					%extra area surrounding the target

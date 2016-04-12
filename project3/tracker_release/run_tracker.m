@@ -20,7 +20,7 @@ sigma = 0.2;					%gaussian kernel bandwidth
 lambda = 1e-2;					%regularization
 interp_factor = 0.075;			%linear interpolation factor for adaptation
 
-threshold = 0;
+threshold = 6;
 PSR = 10;
 sidelobe = 9;
 

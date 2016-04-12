@@ -1,10 +1,10 @@
 % function rect_target(video_path, filePath, positions, figNum)
-base_path = '../tiger1';
+base_path = '../girl';
 video_path = choose_video(base_path);
 figNum = 1;
-file_CM = '../tiger1/tiger_CM.txt';
-file_MIL = '../tiger1/tiger1_MIL_TR004.txt';
-file_own = '../tiger1/tiger_own.txt';
+file_CM = '../girl/girl_CM.txt';
+file_MIL = '../girl/girl_MIL_TR004.txt';
+file_own = '../girl/girl_own.txt';
 
 [img_files, ~, target_sz, ~, ground_truth, ~] = ...
 	load_video_info(video_path);
@@ -14,6 +14,7 @@ color = ['g', 'r', 'b'];
 [positions_MIL, ~] = readingText(file_MIL);
 [positions_own, ~] = readingText(file_own);
 
+occlusion = [336, 431, 435, 442, 443, 445, 449, 473];
 
 for frame = 1 : numel(img_files)
     pos1 = positions_CM(frame, :);
@@ -32,6 +33,9 @@ for frame = 1 : numel(img_files)
         rect_handle3 = rectangle('Position',rect_position3, 'EdgeColor',color(3));
 	else
 		try  %subsequent frames, update GUI
+            if ismember(frame, occlusion) 
+                display('occlusion!')
+            end
 			set(im_handle, 'CData', im)
 			set(rect_handle1, 'Position', rect_position1)         
             set(rect_handle2, 'Position', rect_position2) 
